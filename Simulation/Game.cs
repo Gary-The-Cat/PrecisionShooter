@@ -12,6 +12,7 @@ namespace Game
         ScreenManager screenManager;
         Clock clock;
         RenderWindow window;
+        GameScreen gameScreen;
         
         public Game()
         {
@@ -22,14 +23,20 @@ namespace Game
             // Handle window events
             window.Closed += OnClose;
             window.Resized += OnResize;
+            window.KeyPressed += KeyPressed;
 
             screenManager = new ScreenManager(window);
 
-            var gameScreen = new GameScreen(window, Configuration.SinglePlayer);
+            gameScreen = new GameScreen(window, Configuration.SinglePlayer);
 
             screenManager.AddScreen(gameScreen);
 
             clock = new Clock();
+        }
+
+        private void KeyPressed(object sender, KeyEventArgs e)
+        {
+            // Logic for key presses goes here
         }
 
         public void Run()

@@ -1,5 +1,6 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using Shared.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace LevelEditor
     {
         static void Main(string[] args)
         {
-            new Editor().Run();
+            new Editor(args).Run();
         }
     }
 }

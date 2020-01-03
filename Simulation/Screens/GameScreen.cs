@@ -10,31 +10,16 @@ namespace Game.Screens
     public class GameScreen : Screen
     {
         private int frame;
-
-        private IGameWorld gameWorld;
-
-        private List<IPlayer> players;
+        private CircleShape taylorsCircle;
 
         public GameScreen(
             RenderWindow window,
             FloatRect configuration)
             : base(window, configuration)
         {
-            frame = 0;
-
-            players = new List<IPlayer>();
-
-            gameWorld = new GameWorld();
-
-            gameWorld.StaticObjects.Add(
-                new CircleShape(100)
-                {
-                    Position = new Vector2f(Configuration.Width / 2, Configuration.Height / 2),
-                    Origin = new Vector2f(100, 100),
-                    FillColor = Color.White
-                });
-
-            players.Add(new Player(gameWorld.Clone()));
+            taylorsCircle = new CircleShape(50);
+            taylorsCircle.Origin = new Vector2f(50, 50);
+            taylorsCircle.Position = new Vector2f(Configuration.Width / 2, Configuration.Height / 2);
         }
         
         /// <summary>
@@ -44,12 +29,8 @@ namespace Game.Screens
         /// <param name="deltaT">The amount of time that has passed since the last frame was drawn.</param>
         public override void Update(float deltaT)
         {
-            this.gameWorld.Update(deltaT);
-
-            foreach (var player in players)
-            {
-                player.Update(deltaT);
-            }
+            var currentPosition = taylorsCircle.Position;
+            taylorsCircle.Position = new Vector2f(currentPosition.X + 1, currentPosition.Y);
         }
         
         /// <summary>
@@ -58,13 +39,7 @@ namespace Game.Screens
         /// <param name="deltaT">The amount of time that has passed since the last frame was drawn.</param>
         public override void Draw(float deltaT)
         {
-            gameWorld.DrawStaticObjects(window);
-
-            foreach (var player in players)
-            {
-                player.Draw(window);
-            }
-
+            window.Draw(taylorsCircle);
             frame++;
         }
     }

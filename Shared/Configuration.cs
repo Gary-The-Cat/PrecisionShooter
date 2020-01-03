@@ -22,6 +22,10 @@ namespace Shared
 
         public static int GridSize = 32;
 
+        public static long GridWidth => Width / GridSize;
+
+        public static long GridHeight => Height / GridSize;
+
         public static Color Background => new Color(0x23, 0x23, 0x23);
 
         public static bool AllowCameraMovement => true;
