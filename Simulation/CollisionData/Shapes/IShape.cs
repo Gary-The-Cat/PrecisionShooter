@@ -14,5 +14,7 @@ namespace Game.CollisionData.Shapes
         Vector2f GetPosition();
 
         void SetPosition(Vector2f position);
+
+        Vector2f GetVertex(Vector2f direction);
     }
 }

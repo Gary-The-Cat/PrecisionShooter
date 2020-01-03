@@ -67,5 +67,10 @@ namespace Game.CollisionData.Shapes
         {
             return new Vector2f(radius, radius);
         }
+
+        public Vector2f GetVertex(Vector2f direction)
+        {
+            return new Vector2f(0, 0);
+        }
     }
 }

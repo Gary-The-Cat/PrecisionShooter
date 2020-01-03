@@ -1,4 +1,7 @@
-﻿using Game.Example;
+﻿using Game.CollisionData;
+using Game.CollisionData.Shapes;
+using Game.Example;
+using Game.ExtensionMethods;
 using Game.Interfaces;
 using SFML.Graphics;
 using SFML.System;
@@ -10,16 +13,21 @@ namespace Game.Screens
     public class GameScreen : Screen
     {
         private int frame;
-        private CircleShape taylorsCircle;
+        private RectangleShape taylorsCircle;
+        private RectangleShape lukesCircle;
 
         public GameScreen(
             RenderWindow window,
             FloatRect configuration)
             : base(window, configuration)
         {
-            taylorsCircle = new CircleShape(50);
-            taylorsCircle.Origin = new Vector2f(50, 50);
+            taylorsCircle = new RectangleShape(new Vector2f(50, 50));
+            taylorsCircle.Origin = new Vector2f(25, 25);
             taylorsCircle.Position = new Vector2f(Configuration.Width / 2, Configuration.Height / 2);
+
+            lukesCircle = new RectangleShape(new Vector2f(50, 50));
+            lukesCircle.Origin = new Vector2f(25, 25);
+            lukesCircle.Position = new Vector2f(Configuration.Width / 2, Configuration.Height / 2);
         }
         
         /// <summary>
@@ -29,8 +37,7 @@ namespace Game.Screens
         /// <param name="deltaT">The amount of time that has passed since the last frame was drawn.</param>
         public override void Update(float deltaT)
         {
-            var currentPosition = taylorsCircle.Position;
-            taylorsCircle.Position = new Vector2f(currentPosition.X + 1, currentPosition.Y);
+            taylorsCircle.Position = MapHelper.GetMousePosition(window.Position);
         }
         
         /// <summary>
@@ -39,7 +46,25 @@ namespace Game.Screens
         /// <param name="deltaT">The amount of time that has passed since the last frame was drawn.</param>
         public override void Draw(float deltaT)
         {
+            var lukesRectangle = new Rectangle(lukesCircle.Position.X, lukesCircle.Position.Y, lukesCircle.Size.X / 2, lukesCircle.Size.Y / 2);
+            var taylorsRectangle = new Rectangle(taylorsCircle.Position.X, taylorsCircle.Position.Y, taylorsCircle.Size.X / 2, taylorsCircle.Size.Y / 2);
+
+            var collitision = CollisionManager.CheckCollision(lukesRectangle, taylorsRectangle);
+
+            if(collitision != null)
+            {
+                lukesCircle.FillColor = Color.Red;
+                lukesCircle.Position -= collitision.Normal.Normalize() * collitision.Depth;
+                taylorsCircle.FillColor = Color.Red;
+            }
+            else
+            {
+                lukesCircle.FillColor = Color.White;
+                taylorsCircle.FillColor = Color.White;
+            }
+
             window.Draw(taylorsCircle);
+            window.Draw(lukesCircle);
             frame++;
         }
     }

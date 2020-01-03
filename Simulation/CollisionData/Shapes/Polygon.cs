@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFML.System;
 
 namespace Game.CollisionData.Shapes
@@ -12,6 +8,11 @@ namespace Game.CollisionData.Shapes
         public Vector2f GetPosition()
         {
             throw new NotImplementedException();
+        }
+
+        public Vector2f GetVertex(Vector2f direction)
+        {
+            return new Vector2f(0, 0);
         }
 
         public void SetPosition(float x, float y)

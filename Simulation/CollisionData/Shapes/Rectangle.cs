@@ -124,5 +124,19 @@ namespace Game.CollisionData.Shapes
         {
             return point.X > Left() && point.X < Right() && point.Y > Top() && point.Y < Bottom();
         }
+
+        public Vector2f GetVertex(Vector2f direction)
+        {
+            if (direction.Y > 0)
+            {
+                return (direction.X > 0)
+                    ? new Vector2f(Right(), Bottom())
+                    : new Vector2f(Left(), Bottom());
+            }
+
+            return (direction.X > 0)
+                ? new Vector2f(Right(), Top())
+                : new Vector2f(Left(), Top());
+        }
     }
 }
