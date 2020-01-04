@@ -10,7 +10,7 @@ namespace Shared
         // Writes each frame to file (WARNING: Slow)
         public static bool RecordToFile = false;
 
-        public static bool IsDebugFrameTime = false;
+        public static bool IsDebugFrameTime = true;
 
         public static float DebugFrameTime = (1 / 60f);
 

@@ -10,6 +10,10 @@ namespace Game.CollisionData.Shapes
 
         private Vector2f center;
 
+        public Vector2f Position { get => center;
+            set => center = value;
+        }
+
         public Circle()
         {
             radius = 0;
