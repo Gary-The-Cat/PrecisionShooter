@@ -108,6 +108,7 @@
     <Compile Include="CollisionData\Shapes\IShape.cs" />
     <Compile Include="CollisionData\Shapes\Polygon.cs" />
     <Compile Include="CollisionData\Shapes\Rectangle.cs" />
+    <Compile Include="Entities\Projectile.cs" />
     <Compile Include="Example\Player.cs" />
     <Compile Include="ExtensionMethods\RenderWindowExceptions.cs" />
     <Compile Include="ExtensionMethods\Vector2fExtensions.cs" />
@@ -147,6 +148,7 @@
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
