@@ -1,10 +1,13 @@
 ﻿using SFML.Graphics;
+using System.IO;
 using static SFML.Window.Keyboard;
 
 namespace Shared
 {
     public static class Configuration
     {
+        public static string MapLocations => Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Resources\Maps");
+
         public static bool ShowDebug = false;
 
         // Writes each frame to file (WARNING: Slow)

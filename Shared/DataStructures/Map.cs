@@ -58,7 +58,7 @@ namespace Shared.DataStructures
         {
             foreach (var component in Components)
             {
-                window.Draw(component.Body);
+                window.Draw(component.Visual);
             }
 
             window.Draw(Goal);

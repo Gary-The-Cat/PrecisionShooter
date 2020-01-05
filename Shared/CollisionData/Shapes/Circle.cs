@@ -1,5 +1,4 @@
-﻿using System;
-using Game.ExtensionMethods;
+﻿using Game.ExtensionMethods;
 using SFML.System;
 
 namespace Game.CollisionData.Shapes

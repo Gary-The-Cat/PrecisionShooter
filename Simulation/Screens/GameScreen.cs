@@ -6,7 +6,10 @@ using Game.ExtensionMethods;
 using Game.Interfaces;
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 using Shared;
+using Shared.DataStructures;
+using System;
 using System.Collections.Generic;
 
 namespace Game.Screens
@@ -22,6 +25,8 @@ namespace Game.Screens
 
         private Rectangle groundBody;
 
+        private Map map;
+
         public GameScreen(
             RenderWindow window,
             FloatRect configuration)
@@ -30,7 +35,10 @@ namespace Game.Screens
             ground = new RectangleShape(new Vector2f(Configuration.Width, 10));
             ground.Position = new Vector2f(0, Configuration.Height - 10);
             groundBody = new Rectangle(Configuration.Width / 2, Configuration.Height - 5, Configuration.Width / 2, 5);
-            lukesProjectile = new Projectile(new Vector2f(Configuration.Width / 2, Configuration.Height / 2));
+            lukesProjectile = new Projectile(new Vector2f(Configuration.Width / 2 - 250, Configuration.Height / 2));
+
+            map = MapHelper.LoadMap($"{Configuration.MapLocations}\\0");
+            map.Load();
         }
         
         /// <summary>
@@ -42,15 +50,15 @@ namespace Game.Screens
         {
             lukesProjectile.Update(deltaT);
 
-            Collision collision = CollisionManager.CheckCollision(groundBody, lukesProjectile.Body);
-
-            if(collision != null)
+            if (Keyboard.IsKeyPressed(Keyboard.Key.P))
             {
-                lukesProjectile.Position = lukesProjectile.Position + collision.Normal * collision.Depth;
-                lukesProjectile.Velocity = new Vector2f(-10/ deltaT, -500);
+                lukesProjectile.Position = MapHelper.GetMousePosition(window.Position);
+                lukesProjectile.Velocity = new Vector2f(500, -600);
             }
+
+            CheckCollisions();
         }
-        
+
         /// <summary>
         /// Draw - Here we don't update any of the components, only draw them in their current state to the screen.
         /// </summary>
@@ -59,7 +67,50 @@ namespace Game.Screens
         {
             lukesProjectile.Draw(window);
             window.Draw(ground);
+            map.Draw(window);
             frame++;
+        }
+
+        private void CheckCollisions()
+        {
+            Collision collision = null;
+            Collision maxCollision = null;
+            float maxDepth = float.MinValue;
+
+            foreach(var component in map.Components)
+            {
+                collision = CollisionManager.CheckCollision(component.Body, lukesProjectile.Body);
+
+                if (collision != null)
+                {
+
+                    if(collision.Depth > maxDepth)
+                    {
+                        maxDepth = collision.Depth;
+                        maxCollision = collision;
+                    }
+                }
+            }
+
+            if (maxCollision != null)
+            {
+                lukesProjectile.Position = lukesProjectile.Position + maxCollision.Normal * maxCollision.Depth;
+                lukesProjectile.Velocity = GetNewVelocity(lukesProjectile.Velocity, maxCollision);
+            }
+        }
+
+        private Vector2f GetNewVelocity(Vector2f velocity, Collision collision)
+        {
+            var currentAngle = Math.Atan2(-velocity.Y, -velocity.X);
+            var collisionAngle = Math.Atan2(collision.Normal.Y, collision.Normal.X);
+            var exitAngle = collisionAngle + (collisionAngle - currentAngle);
+
+            var normalisedVelocity = velocity.Normalize();
+
+            var currentSpeed = velocity.Magnitude() * 0.45f;
+            var exitVector = new Vector2f(MathExtensions.Cos(exitAngle), MathExtensions.Sin(exitAngle));
+            exitVector *= currentSpeed;
+            return exitVector;
         }
     }
 }

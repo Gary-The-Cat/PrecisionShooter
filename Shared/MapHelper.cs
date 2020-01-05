@@ -57,7 +57,7 @@ namespace Shared
             File.WriteAllBytes(GetUniqueMapLocation(), ms.ToArray());
         }
 
-        public static Map DeserialiseMap(string mapLocation)
+        public static Map LoadMap(string mapLocation)
         {
             // Create a deserialiser
             var deser = new DataContractJsonSerializer(typeof(Map));

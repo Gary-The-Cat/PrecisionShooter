@@ -1,4 +1,5 @@
-﻿using SFML.Graphics;
+﻿using Game.CollisionData.Shapes;
+using SFML.Graphics;
 using SFML.System;
 using System;
 using System.Collections.Generic;
@@ -30,11 +31,15 @@ namespace Shared.Components
             shape.Texture = texture;
             shape.Origin = new Vector2f(size.X / 2, size.Y / 2);
 
-            this.Body = shape;
-            this.Body.Position = this.Position;
+            this.Visual = shape;
+            this.Visual.Position = this.Position;
+            var pos = shape.Position;
+            this.Body = new Rectangle(pos.X, pos.Y, shape.Size.X / 2, shape.Size.Y / 2);
         }
 
-        public RectangleShape Body { get; set; }
+        public Rectangle Body { get; set; }
+
+        public RectangleShape Visual { get; set; }
 
         [DataMember]
         public string ComponentType { get; set; }

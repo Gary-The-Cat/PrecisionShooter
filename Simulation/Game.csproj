@@ -102,17 +102,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera\Camera.cs" />
-    <Compile Include="CollisionData\Collision.cs" />
-    <Compile Include="CollisionData\CollisionManager.cs" />
-    <Compile Include="CollisionData\Shapes\Circle.cs" />
-    <Compile Include="CollisionData\Shapes\IShape.cs" />
-    <Compile Include="CollisionData\Shapes\Polygon.cs" />
-    <Compile Include="CollisionData\Shapes\Rectangle.cs" />
     <Compile Include="Entities\Projectile.cs" />
     <Compile Include="Example\Player.cs" />
-    <Compile Include="ExtensionMethods\RenderWindowExceptions.cs" />
-    <Compile Include="ExtensionMethods\Vector2fExtensions.cs" />
-    <Compile Include="ExtensionMethods\MathExtensions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Enums\GameState.cs" />
     <Compile Include="Example\GameWorld.cs" />

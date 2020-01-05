@@ -61,8 +61,7 @@ namespace LevelEditor
 
             if (args.Any())
             {
-                var rootDirectory = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\Resources\Maps");
-                map = MapHelper.DeserialiseMap($"{rootDirectory}\\{args.First()}");
+                map = MapHelper.LoadMap($"{Configuration.MapLocations}\\{args.First()}");
                 map.Load();
             }
         }
@@ -154,21 +153,21 @@ namespace LevelEditor
                 foreach (var component in map.Components)
                 {
                     var mousePos = MapHelper.GetBottomLeftOfGrid(window.Position);
-                    if (component.Body.GetGlobalBounds().Contains(mousePos.X, mousePos.Y))
+                    if (component.Visual.GetGlobalBounds().Contains(mousePos.X, mousePos.Y))
                     {
-                        component.Body.Scale = new Vector2f(1.2f, 1.2f);
+                        component.Visual.Scale = new Vector2f(1.2f, 1.2f);
                         selectedComponents.Add(component);
                     }
                     else
                     {
-                        component.Body.Scale = new Vector2f(1f, 1f);
+                        component.Visual.Scale = new Vector2f(1f, 1f);
                     }
                 }
             }
             else
             {
                 currentComponent.Position = MapHelper.GetBottomLeftOfGrid(window.Position);
-                currentComponent.Body.Position = currentComponent.Position;
+                currentComponent.Visual.Position = currentComponent.Position;
             }
 
             if(frame % 60 == 0)
@@ -187,7 +186,7 @@ namespace LevelEditor
 
             if (!IsPlacingGoal && !IsPlacingStart && !IsDeleting)
             {
-                window.Draw(currentComponent.Body);
+                window.Draw(currentComponent.Visual);
             }
 
             frame++;
